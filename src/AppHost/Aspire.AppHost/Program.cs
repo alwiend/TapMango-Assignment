@@ -1,5 +1,8 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-builder.AddProject<Projects.SMSRateLimiter_API>("smsratelimiter-api");
+var redis = builder.AddRedis("cache");
+
+builder.AddProject<Projects.SMSRateLimiter_API>("smsratelimiter-api")
+    .WithReference(redis);
 
 builder.Build().Run();
