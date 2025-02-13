@@ -1,0 +1,160 @@
+{
+	"info": {
+		"_postman_id": "ff6d82f6-c0d0-47cb-b0f3-b2bed8e3da16",
+		"name": "TapMango-Assignment",
+		"description": "MUST HAVE THE ASPIRE PROJECT RUNNING IN ORDER FOR THESE TESTS TO RUN\n\nLimits are defined in the SMSRateLimterServices.cs file.\n\nUsing Postman runner to conduct tests, I chose this method because it allows for the redis container to be running and the expiry for keys to be simulated in real time.\n\nRequest 1: SMS Can Send Account Limit\n\nThis request will use an array of numbers for a single account thus a single message per\n\nAccount 1 - In the runner set the iterations to a value higher that 12 to see the result of false for can send after the 10th iteration.\n\nRequest 2: SMS Can Send Number Limit\n\nStatic number and account number to show the limit, this one will show the can send as false after the 5th iteration",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12016680"
+	},
+	"item": [
+		{
+			"name": "SMS Can Send Account Limit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let numbers = pm.collectionVariables.get(\"numbers\");\r",
+							"\r",
+							"if(!numbers || numbers.length == 0) {\r",
+							"    numbers = [\"12505559001\", \"12505559002\", \"12505559003\", \"12505559004\", \"12505559005\", \"12505559006\", \"12505559007\", \"12505559008\", \"12505559009\", \"12505559010\", \"12505559011\"];\r",
+							"}\r",
+							"\r",
+							"let currentNumber = numbers.shift();\r",
+							"console.log(currentNumber)\r",
+							"pm.collectionVariables.set(\"number\", currentNumber);\r",
+							"pm.collectionVariables.set(\"numbers\", numbers);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7240/api/v1/SMSRate/cansend?phoneNumber={{number}}&accountId=12345-1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7240",
+					"path": [
+						"api",
+						"v1",
+						"SMSRate",
+						"cansend"
+					],
+					"query": [
+						{
+							"key": "phoneNumber",
+							"value": "{{number}}"
+						},
+						{
+							"key": "accountId",
+							"value": "12345-1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SMS Can Send Number Limit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7240/api/v1/SMSRate/cansend?phoneNumber=12505558001&accountId=12345-2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7240",
+					"path": [
+						"api",
+						"v1",
+						"SMSRate",
+						"cansend"
+					],
+					"query": [
+						{
+							"key": "phoneNumber",
+							"value": "12505558001"
+						},
+						{
+							"key": "accountId",
+							"value": "12345-2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
