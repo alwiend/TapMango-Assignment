@@ -1,7 +1,11 @@
 ﻿namespace SMSRateLimiter.API.Domain.Models;
 
 public class SMSRateLimitResponse {
+
+    [JsonPropertyName("canSend")]
     public bool CanSend { get; set; }
+
+    [JsonPropertyName("reason")]
     public string? Reason { get; set; }
 
     /// <summary>
