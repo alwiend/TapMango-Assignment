@@ -4,7 +4,6 @@ Technologies used:
 - .Net 9.0
 - .Net Aspire (Orchestration)
 - Asp.Net
-- Angular
 
 Optional:
 Created a Grpc endpoint for more performant calling of the SMS rate limiter service
