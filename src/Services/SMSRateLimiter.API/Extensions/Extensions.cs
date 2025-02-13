@@ -1,6 +1,4 @@
-﻿using StackExchange.Redis;
-
-namespace SMSRateLimiter.API.Extensions;
+﻿namespace SMSRateLimiter.API.Extensions;
 
 public static class Extensions {
     public static void AddApplicationServices(this IHostApplicationBuilder builder) {
@@ -8,8 +6,7 @@ public static class Extensions {
 
         builder.Services.AddAntiforgery();
 
-        //builder.AddRedisClient("cache");
-        builder.AddRedisDistributedCache(connectionName: "cache");
+        builder.AddRedisClient(connectionName: "cache");
 
         builder.Services.AddScoped<SMSRateLimiterServices>();
     }
