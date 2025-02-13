@@ -19,13 +19,16 @@ public static class SMSRateLimiterAPI {
     /// <param name="request"></param>
     /// <param name="services"></param>
     /// <returns>The response object containing a field named "CanSend" which indicated whether a SMS can be sent or not, and the reason if "CanSend" is false.</returns>
-    public static async Task<Results<Ok<SMSRateLimitResponse>, BadRequest<SMSRateLimitResponse>>> CanSendSMSMessage([FromBody] SMSCanSendRequest request, [AsParameters] SMSRateLimiterServices services) {
+    public static async Task<Results<Ok<SMSRateLimitResponse>, BadRequest<SMSRateLimitResponse>>> CanSendSMSMessage(HttpContext context, [AsParameters] SMSRateLimiterServices services) {
         try {
-            if (request == null || string.IsNullOrEmpty(request.PhoneNumber)) {
+            var phoneNumber = context.Request.Query["phoneNumber"];
+            var accountId = context.Request.Query["accountId"];
+
+            if (string.IsNullOrEmpty(accountId) || string.IsNullOrEmpty(phoneNumber)) {
                 return TypedResults.Ok(new SMSRateLimitResponse() { CanSend = false, Reason = "Invalid Request" });
             }
 
-            var canSendResponse = await services.CanSendSMSMessageAsync(request.PhoneNumber, request.AccountId);
+            var canSendResponse = await services.CanSendSMSMessageAsync(phoneNumber!, accountId!);
 
             return TypedResults.Ok((SMSRateLimitResponse)canSendResponse);
         } catch (Exception ex) {
