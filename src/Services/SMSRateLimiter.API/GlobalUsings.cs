@@ -5,3 +5,4 @@ global using Microsoft.AspNetCore.Mvc;
 global using SMSRateLimiter.API.Domain.Models;
 global using Microsoft.Extensions.Caching.Distributed;
 global using StackExchange.Redis;
+global using System.Text.Json.Serialization;
