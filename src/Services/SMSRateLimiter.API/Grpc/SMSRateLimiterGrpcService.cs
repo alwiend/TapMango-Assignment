@@ -14,7 +14,7 @@ public class SMSRateLimiterGrpcService(SMSRateLimiterServices services) : SMSRat
     /// <returns></returns>
     public override async Task<CanSendResponse> CanSendSMSMessage(CanSendSMSRequest request, ServerCallContext context) {
         try {
-            if (request == null || string.IsNullOrEmpty(request.PhoneNumber)) {
+            if (request == null || string.IsNullOrEmpty(request.PhoneNumber) || string.IsNullOrEmpty(request.AccountId)) {
                 return new CanSendResponse() { CanSend = false, Reason = "Invalid Request" };
             }
 
